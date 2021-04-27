@@ -1,10 +1,9 @@
 Player = function(game, canvas) {
-    // La scène du jeu
-    this.scene = game.scene;
+    // Le jeu, chargé dans l'objet Player
+    this.game = game;
 
     // Initialisation de la caméra
-    this._initCamera(this.scene, canvas);
-    
+    this._initCamera(this.game.scene, canvas);
 };
 
 Player.prototype = {
