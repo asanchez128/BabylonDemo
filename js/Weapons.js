@@ -107,7 +107,7 @@ Weapons.prototype = {
 
         newRocket.registerAfterRender(function(){
             // On bouge la roquette vers l'avant
-            newRocket.translate(new BABYLON.Vector3(0,0,1),1,0);
+            newRocket.translate(new BABYLON.Vector3(0,0,1),1,BABYLON.Space.LOCAL);
             
             // On crée un rayon qui part de la base de la roquette vers l'avant
             var rayRocket = new BABYLON.Ray(newRocket.position,newRocket.direction);
