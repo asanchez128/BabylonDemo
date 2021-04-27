@@ -2,68 +2,39 @@ Player = function(game, canvas) {
     // _this est l'accès à la caméraà l'interieur de Player
     var _this = this;
 
-    // _this.angularSensibility = 0.5;
+    // Si le tir est activée ou non
+this.weaponShoot = false;
+this.controlEnabled = true;
+
+    
 
     // Le jeu, chargé dans l'objet Player
     this.game = game;
 
-    // Axe de mouvement X et Z
-    // this.axisMovement = [false,false,false,false];
 
-    // window.addEventListener("keyup", function(evt) {
-        
-    //     switch(evt.keyCode){
-    //         case 90:
-    //         _this.camera.axisMovement[0] = false;
-    //         break;
-    //         case 83:
-    //         _this.camera.axisMovement[1] = false;
-    //         break;
-    //         case 81:
-    //         _this.camera.axisMovement[2] = false;
-    //         break;
-    //         case 68:
-    //         _this.camera.axisMovement[3] = false;
-    //         break;
-    //     }
-    // }, false);
-    
-    // // Quand les touches sont relachés
-    // window.addEventListener("keydown", function(evt) {
-    //     switch(evt.keyCode){
-    //         case 90:
-    //         _this.camera.axisMovement[0] = true;
-    //         break;
-    //         case 83:
-    //         _this.camera.axisMovement[1] = true;
-    //         break;
-    //         case 81:
-    //         _this.camera.axisMovement[2] = true;
-    //         break;
-    //         case 68:
-    //         _this.camera.axisMovement[3] = true;
-    //         break;
-    //     }
-    // }, false);
-
-    // window.addEventListener("mousemove", function(evt) {
-    //     if(_this.rotEngaged === true){
-    //         _this.camera.rotation.y+=evt.movementX * 0.001 * (_this.angularSensibility / 250);
-    //         var nextRotationX = _this.camera.rotation.x + (evt.movementY * 0.001 * (_this.angularSensibility / 250));
-    //         if( nextRotationX < degToRad(90) && nextRotationX > degToRad(-90)){
-    //             _this.camera.rotation.x+=evt.movementY * 0.001 * (_this.angularSensibility / 250);
-    //         }
-    //      }
-    // }, false);    
     
     // Initialisation de la caméra
     this._initCamera(this.game.scene, canvas); 
 
-    // Le joueur doit cliquer dans la scène pour que controlEnabled soit changé
-//this.controlEnabled = false;
+    // On récupère le canvas de la scène 
+var canvas = this.game.scene.getEngine().getRenderingCanvas();
 
-// On lance l'event _initPointerLock pour checker le clic dans la scène
-//this._initPointerLock(); 
+// On affecte le clic et on vérifie qu'il est bien utilisé dans la scène (_this.controlEnabled)
+canvas.addEventListener("pointerdown", function(evt) {
+    if (_this.controlEnabled && !_this.weaponShoot) {
+        _this.weaponShoot = true;
+        _this.handleUserMouseDown();
+    }
+}, false);
+
+// On fait pareil quand l'utilisateur relache le clic de la souris
+canvas.addEventListener("pointerup", function(evt) {
+    if (_this.controlEnabled && _this.weaponShoot) {
+        _this.weaponShoot = false;
+        _this.handleUserMouseUp();
+    }
+}, false);
+
 };
 
 Player.prototype = {
@@ -85,34 +56,20 @@ Player.prototype = {
         this.camera.applyGravity = true;
         this.camera.ellipsoid = new BABYLON.Vector3(1, 1.7, 1);
         this.camera.checkCollisions = true;
-    },
-
-    // _initPointerLock : function() {
-    //     var _this = this;
-        
-    //     // Requete pour la capture du pointeur
-    //     var canvas = this.game.scene.getEngine().getRenderingCanvas();
-    //     canvas.addEventListener("click", function(evt) {
-    //         canvas.requestPointerLock = canvas.requestPointerLock || canvas.msRequestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
-    //         if (canvas.requestPointerLock) {
-    //             canvas.requestPointerLock();
-    //         }
-    //     }, false);
+        // Appel de la création des armes
+    this.camera.weapons = new Weapons(this);
+        this.isAlive = true;
     
-    //     // Evenement pour changer le paramètre de rotation
-    //     var pointerlockchange = function (event) {
-    //         _this.controlEnabled = (document.mozPointerLockElement === canvas || document.webkitPointerLockElement === canvas || document.msPointerLockElement === canvas || document.pointerLockElement === canvas);
-    //         if (!_this.controlEnabled) {
-    //             _this.rotEngaged = false;
-    //         } else {
-    //             _this.rotEngaged = true;
-    //         }
-    //     };
-        
-    //     // Event pour changer l'état du pointeur, sous tout les types de navigateur
-    //     document.addEventListener("pointerlockchange", pointerlockchange, false);
-    //     document.addEventListener("mspointerlockchange", pointerlockchange, false);
-    //     document.addEventListener("mozpointerlockchange", pointerlockchange, false);
-    //     document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
-    // },
+    },
+    handleUserMouseDown : function() {
+        if(this.isAlive === true){
+            this.camera.weapons.fire();
+        }
+    },
+    handleUserMouseUp : function() {
+        if(this.isAlive === true){
+            this.camera.weapons.stopFire();
+        }
+    },
+    
 };
