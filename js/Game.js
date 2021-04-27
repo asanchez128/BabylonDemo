@@ -29,3 +29,18 @@ Game.prototype = {
         return scene;
     }
 };
+
+// ------------------------- TRANSFO DE DEGRES/RADIANS 
+function degToRad(deg)
+{
+   return (Math.PI*deg)/180
+}
+// ----------------------------------------------------
+
+// -------------------------- TRANSFO DE DEGRES/RADIANS 
+function radToDeg(rad)
+{
+   // return (Math.PI*deg)/180
+   return (rad*180)/Math.PI
+}
+// ----------------------------------------------------
