@@ -13,15 +13,21 @@ Game = function(canvasId) {
     var _arena = new Arena(_this);
 
     // Permet au jeu de tourner
-    engine.runRenderLoop(function () {
-        // Récuperer le ratio par les fps
-        //_this.fps = Math.round(1000/engine.getDeltaTime());
+engine.runRenderLoop(function () {
 
-        // Checker le mouvement du joueur en lui envoyant le ratio de déplacement
-        //_player._checkMove((_this.fps)/60);
+    // Récuperet le ratio par les fps
+    _this.fps = Math.round(1000/engine.getDeltaTime());
 
-        _this.scene.render();
-    });
+    // Checker le mouvement du joueur en lui envoyant le ratio de déplacement
+    //_player._checkMove((_this.fps)/60);
+
+    _this.scene.render();
+    
+    // Si launchBullets est a true, on tire
+    if(_player.camera.weapons.launchBullets === true){
+        _player.camera.weapons.launchFire();
+    }
+});
 
     // Ajuste la vue 3D si la fenetre est agrandie ou diminuée
     window.addEventListener("resize", function () {
