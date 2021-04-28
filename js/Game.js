@@ -6,7 +6,6 @@ Game = function(canvasId) {
     _this.actualTime = Date.now();
     // On initie la scène avec une fonction associée à l'objet Game
     this.scene = this._initScene(engine);
-    this.scene.collisionsEnabled = true;
     
     var _player = new Player(_this, canvas);
 
@@ -43,6 +42,8 @@ Game.prototype = {
     _initScene : function(engine) {
         var scene = new BABYLON.Scene(engine);
         scene.clearColor=new BABYLON.Color3(0,0,0);
+        scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+        scene.collisionsEnabled = true;
         return scene;
     }
 };
