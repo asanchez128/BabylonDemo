@@ -19,12 +19,12 @@ Arena = function(game) {
     materialWall.diffuseTexture = new BABYLON.Texture("assets/images/wood.png", scene);
 
     var boxArena = BABYLON.Mesh.CreateBox("box1", 100, scene, false, BABYLON.Mesh.BACKSIDE);
-    boxArena.checkCollisions = true;
     boxArena.material = materialGround;
     boxArena.position.y = 50 * 0.3;
     boxArena.scaling.y = 0.3;
     boxArena.scaling.z = 0.8;
     boxArena.scaling.x = 3.5;
+    boxArena.checkCollisions = true;
 
     var columns = [];
     var numberColumn = 6;

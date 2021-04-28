@@ -39,27 +39,39 @@ canvas.addEventListener("pointerup", function(evt) {
 
 Player.prototype = {
     _initCamera : function(scene, canvas) {
+//         var playerBox = BABYLON.Mesh.CreateBox("headMainPlayer", 3, scene);
+// playerBox.position = new BABYLON.Vector3(-20, 5, 0);
+// playerBox.ellipsoid = new BABYLON.Vector3(2, 2, 2);
         // On crée la caméra
         this.camera = new BABYLON.UniversalCamera("camera", new BABYLON.Vector3(-20, 5, 0), scene);
+        // this.camera.playerBox = playerBox;
+        // this.camera.parent = playerBox;
+        this.camera.applyGravity = true;
+        this.camera.checkCollisions = true;
+        this.camera.ellipsoid = new BABYLON.Vector3(1, 1.7, 1);
         
         // Axe de mouvement X et Z
         //this.camera.axisMovement = [false,false,false,false];
         
         // Si le joueur est en vie ou non
         this.isAlive = true;
+
+        // Pour savoir que c'est le joueur principal
+this.camera.isMain = true;
         
         // On demande à la caméra de regarder au point zéro de la scène
         this.camera.setTarget(BABYLON.Vector3.Zero());
         // This attaches the camera to the canvas
         this.camera.attachControl(canvas, true);
 
-        this.camera.applyGravity = true;
-        this.camera.ellipsoid = new BABYLON.Vector3(1, 1.7, 1);
-        this.camera.checkCollisions = true;
+        
         // Appel de la création des armes
     this.camera.weapons = new Weapons(this);
-        this.isAlive = true;
-    
+    // var hitBoxPlayer = BABYLON.Mesh.CreateBox("hitBoxPlayer", 3, scene);
+    // hitBoxPlayer.parent = this.camera.playerBox;
+    // hitBoxPlayer.scaling.y = 2;
+    // hitBoxPlayer.isPickable = true;
+    // hitBoxPlayer.isMain = true;
     },
     handleUserMouseDown : function() {
         if(this.isAlive === true){
