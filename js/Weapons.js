@@ -67,8 +67,7 @@ Weapons.prototype = {
     ).then((result) => {
       result.meshes[0].parent = Player.camera;
       result.meshes[0].scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);
-      result.meshes[0].rotation.y = Math.PI * 1.5;
-      //result.meshes[0].rotation.x = Math.PI / 2;
+      result.meshes[0].rotation.x = Math.PI * 1.5;
       result.meshes[0].position = new BABYLON.Vector3(1.5, -2.5, 0);
     });
 
