@@ -48,6 +48,7 @@ Weapons.prototype = {
       0.5,
       Player.game.scene
     );
+    newWeapon.isVisible = false;
 
     // Nous faisons en sorte d'avoir une arme d'apparence plus longue que large
     newWeapon.scaling = new BABYLON.Vector3(1, 0.7, 2);
@@ -66,7 +67,7 @@ Weapons.prototype = {
       Player.game.scene
     ).then((result) => {
       result.meshes[0].parent = Player.camera;
-      result.meshes[0].scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);
+      result.meshes[0].scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
       result.meshes[0].rotation.x = Math.PI * 1.5;
       result.meshes[0].position = new BABYLON.Vector3(1.5, -2.5, 0);
     });
@@ -109,7 +110,6 @@ Weapons.prototype = {
       { diameter: 1 },
       scene
     );
-    //var sphere = ;
     newRocket.direction = new BABYLON.Vector3(
       Math.sin(rotationValue.y) * Math.cos(rotationValue.x),
       Math.sin(-rotationValue.x),
@@ -129,7 +129,7 @@ Weapons.prototype = {
     newRocket.isPickable = false;
 
     newRocket.material = new BABYLON.StandardMaterial("textureWeapon", scene);
-    newRocket.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
+    newRocket.material.diffuseColor = new BABYLON.Color3(0.15, 0.55, 0.1);
 
     this.Player.game._rockets.push(newRocket);
   },
