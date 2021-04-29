@@ -43,18 +43,11 @@ Weapons = function (Player) {
 Weapons.prototype = {
   newWeapon: function (Player) {
     var newWeapon;
-
-    newWeapon = BABYLON.SceneLoader.ImportMeshAsync(
-      "",
-      "/assets/models/basket",
-      "10431_Wicker_Basket_v1_L3.obj",
+    newWeapon = BABYLON.Mesh.CreateBox(
+      "rocketLauncher",
+      0.5,
       Player.game.scene
     );
-    // newWeapon = BABYLON.Mesh.CreateBox(
-    //   "rocketLauncher",
-    //   0.5,
-    //   Player.game.scene
-    // );
 
     // Nous faisons en sorte d'avoir une arme d'apparence plus longue que large
     newWeapon.scaling = new BABYLON.Vector3(1, 0.7, 2);
@@ -66,14 +59,18 @@ Weapons.prototype = {
     newWeapon.position = this.bottomPosition.clone();
     newWeapon.position.y = this.topPositionY;
 
-    // Ajoutons un material Rouge pour le rendre plus visible
-    var materialWeapon = new BABYLON.StandardMaterial(
-      "rocketLauncherMat",
-      this.Player.game.scene
-    );
-    materialWeapon.diffuseColor = new BABYLON.Color3(1, 0, 0);
-
-    newWeapon.material = materialWeapon;
+    BABYLON.SceneLoader.ImportMeshAsync(
+      "",
+      "https://raw.githubusercontent.com/asanchez128/BabylonDemo/master/assets/models/basket/",
+      "10431_Wicker_Basket_v1_L3.obj",
+      Player.game.scene
+    ).then((result) => {
+      result.meshes[0].parent = Player.camera;
+      result.meshes[0].scaling = new BABYLON.Vector3(0.2, 0.2, 0.2);
+      result.meshes[0].rotation.y = Math.PI * 1.5;
+      //result.meshes[0].rotation.x = Math.PI / 2;
+      result.meshes[0].position = new BABYLON.Vector3(1.5, -2.5, 0);
+    });
 
     return newWeapon;
   },
@@ -108,7 +105,12 @@ Weapons.prototype = {
   createRocket: function (playerPosition, direction, scene) {
     var positionValue = this.rocketLauncher.absolutePosition.clone();
     var rotationValue = playerPosition.rotation;
-    var newRocket = BABYLON.Mesh.CreateBox("rocket", 1, scene);
+    var newRocket = BABYLON.MeshBuilder.CreateSphere(
+      "sphere",
+      { diameter: 1 },
+      scene
+    );
+    //var sphere = ;
     newRocket.direction = new BABYLON.Vector3(
       Math.sin(rotationValue.y) * Math.cos(rotationValue.x),
       Math.sin(-rotationValue.x),
