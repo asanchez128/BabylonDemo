@@ -43,11 +43,18 @@ Weapons = function (Player) {
 Weapons.prototype = {
   newWeapon: function (Player) {
     var newWeapon;
-    newWeapon = BABYLON.Mesh.CreateBox(
-      "rocketLauncher",
-      0.5,
+
+    newWeapon = BABYLON.SceneLoader.ImportMeshAsync(
+      "",
+      "/assets/models/basket",
+      "10431_Wicker_Basket_v1_L3.obj",
       Player.game.scene
     );
+    // newWeapon = BABYLON.Mesh.CreateBox(
+    //   "rocketLauncher",
+    //   0.5,
+    //   Player.game.scene
+    // );
 
     // Nous faisons en sorte d'avoir une arme d'apparence plus longue que large
     newWeapon.scaling = new BABYLON.Vector3(1, 0.7, 2);
